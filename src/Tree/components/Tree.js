@@ -21,7 +21,8 @@ const CustomTree = () => {
     if (!loading && !error) {
       const { getAllTeam: teams } = data
       dispatch({ type: "SET_TEAM_LIST", payload: teams })
-      setGData(teams)
+      let teamsCopy = teams.map((e) => ({ ...e }))
+      setGData(teamsCopy)
     }
   }, [loading])
   const [expandedKeys] = useState(["0-0", "0-0-0", "0-0-0-0"])
@@ -53,6 +54,7 @@ const CustomTree = () => {
 
     let dragObj
     loop(data, dragKey, (item, index, arr) => {
+      console.log(arr)
       arr.splice(index, 1)
       dragObj = item
     })

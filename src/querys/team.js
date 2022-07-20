@@ -20,26 +20,6 @@ export const GET_ALL_TEAMS = gql`
       _id
       title
       key
-      children {
-        title
-        key
-        children {
-          title
-          key
-          children {
-            title
-            key
-            children {
-              title
-              key
-              children {
-                title
-                key
-              }
-            }
-          }
-        }
-      }
     }
   }
 `
