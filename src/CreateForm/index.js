@@ -4,6 +4,7 @@ import { useMutation } from "@apollo/client"
 import { CREATE_TEAM } from "../querys/team"
 import { useDispatch, useSelector } from "react-redux"
 import { getTeamList } from "../store/index"
+import { v4 as uuidv4 } from "uuid"
 
 const CreateForm = () => {
   const dispatch = useDispatch()
@@ -12,8 +13,9 @@ const CreateForm = () => {
 
   useEffect(() => {
     if (!!data) {
+      console.log({ data })
       const { createTeam } = data
-      console.log(teamList)
+      console.log({ update: teamList })
       dispatch({ type: "SET_TEAM_LIST", payload: [createTeam, ...teamList] })
     }
   }, [loading])
@@ -43,7 +45,7 @@ const CreateForm = () => {
     createTeam({
       variables: {
         title: team.title,
-        key: newKey,
+        key: `${uuidv4()}`,
       },
     })
   }

@@ -6,29 +6,30 @@ import { gql, useQuery } from "@apollo/client"
 import { GET_ALL_TEAMS, GET_TEAM_BY_ID } from "../../querys/team"
 import { getTeamList } from "../../store"
 
-const defaultData = [
-  { title: "team1", key: "team1" },
-  { title: "team2", key: "team2" },
-  { title: "team3", key: "team3" },
-]
-
 const CustomTree = () => {
   const dispatch = useDispatch()
+  const teamList = useSelector(getTeamList)
+
   const { data, error, loading } = useQuery(GET_ALL_TEAMS)
-  const [gData, setGData] = useState(defaultData)
+  const [gData, setGData] = useState([])
+
+  useEffect(() => {
+    setGData(teamList.map((e) => ({ ...e })))
+  }, [teamList])
 
   useEffect(() => {
     if (!loading && !error) {
       const { getAllTeam: teams } = data
       dispatch({ type: "SET_TEAM_LIST", payload: teams })
       let teamsCopy = teams.map((e) => ({ ...e }))
+      console.log({ teamsCopy })
       setGData(teamsCopy)
     }
   }, [loading])
   const [expandedKeys] = useState(["0-0", "0-0-0", "0-0-0-0"])
 
   const onDragEnter = (info) => {
-    console.log(info) // expandedKeys 需要受控时设置
+    console.log(info)
   }
 
   const onDrop = (info) => {
